@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import app from './firebase.init';
@@ -71,6 +71,7 @@ function App() {
           setEmail('');
           setPassword('');
           verifyEmail();
+          setUserName();
         })
         .catch(error => {
           console.error(error);
@@ -84,6 +85,18 @@ function App() {
     sendPasswordResetEmail(auth,email)
     .then(() =>{
       console.log('email sent')
+    })
+  }
+
+  const setUserName = () =>{
+    updateProfile(auth.currentUser,{
+      displayName:name
+    })
+    .then(() =>{
+      console.log('Updating Name')
+    })
+    .catch(error =>{
+      setError(error.message);
     })
   }
 
